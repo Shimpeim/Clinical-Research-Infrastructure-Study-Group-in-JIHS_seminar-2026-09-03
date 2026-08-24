@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="3353" height="1273" viewBox="0 0 3353 1273" overflow="visible">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#555555"/></marker>
+  </defs>
+  <!-- edges -->
+  <path d="M 1576.6,103.3 A 2610.42,2610.42 0 0,0 900.5,277.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <text x="1300.7" y="134.2" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">form is derived from</text>
+  <text x="1300.7" y="147.2" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">and serves the telos</text>
+  <text x="1300.7" y="160.2" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">(SEP §5 — final's priority)</text>
+  <path d="M 1603.9,115 A 1767.43,1767.43 0 0,0 1312.1,265.5" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1749.3,115 A 11500.66,11500.66 0 0,0 2041.1,265.5" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1776.6,103.3 A 5313.66,5313.66 0 0,1 2452.7,277.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 898.5,303.9 A 6256.54,6256.54 0 0,1 1135.6,303.9" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <text x="993.4" y="279.3" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">schema affords agency;</text>
+  <text x="993.4" y="292.3" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">enactment turns potentiality</text>
+  <text x="993.4" y="305.3" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">into actuality</text>
+  <text x="993.4" y="318.3" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">(PDR cycle, values in appraisal)</text>
+  <path d="M 725.8,341.4 A 2753.47,2753.47 0 0,0 434,491.8" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 798.5,341.4 A 1581.67,1581.67 0 0,0 798.5,490.8" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 871.3,341.4 A 5240.54,5240.54 0 0,0 1163.1,491.8" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1337.6,303.9 A 4565.2,4565.2 0 0,1 1574.6,303.9" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <text x="1432.4" y="278.9" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">agent mobilises resources;</text>
+  <text x="1432.4" y="291.9" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">inscriptions circulate outward</text>
+  <text x="1432.4" y="304.9" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">and enrol distant actors</text>
+  <text x="1432.4" y="317.9" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">(Latour · immutable mobiles)</text>
+  <path d="M 1310.3,341.4 A 5080.15,5080.15 0 0,0 1602.1,491.8" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1676.6,266.4 A 1233.98,1233.98 0 0,1 1676.6,117" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <text x="1674.4" y="189.6" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">alignment of substrate</text>
+  <text x="1674.4" y="202.6" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">with the mission secures</text>
+  <text x="1674.4" y="215.6" text-anchor="middle" dominant-baseline="auto" font-size="10" fill="#555555" font-family="Helvetica,Arial,sans-serif">funding, rules, applicants</text>
+  <path d="M 1749.3,341.4 A 5244.62,5244.62 0 0,0 2041.1,491.8" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1776.6,329.7 A 14139.76,14139.76 0 0,1 2452.7,504" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1776.6,321.1 A 3888.29,3888.29 0 0,1 2891.7,512.7" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 323.2,567.8 A 2320.61,2320.61 0 0,0 177.8,717.7" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 395.9,567.8 A 2639.42,2639.42 0 0,0 541.3,717.7" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 240,791 A 5755.76,5755.76 0 0,0 696.7,948" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 240,777.3 A 9317.82,9317.82 0 0,0 1135.6,962" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 240,771.4 A 13018.54,13018.54 0 0,0 1574.6,968" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 834.9,567.8 A 2342.1,2342.1 0 0,0 980.3,717.7" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 898.5,564.6 A 6640.41,6640.41 0 0,0 1355.2,721.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 898.5,550.9 A 17859.78,17859.78 0 0,0 1794.2,735.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 1776.6,564.6 A 6227.01,6227.01 0 0,0 2233.3,721.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 2215.6,564.6 A 7484.41,7484.41 0 0,0 2672.3,721.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 2674.2,791 A 1731.54,1731.54 0 0,0 2217.5,948" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 2737.8,794.1 A 766.34,766.34 0 0,0 2592.4,944.1" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <path d="M 2654.7,564.6 A 86056.15,86056.15 0 0,1 3111.3,721.6" marker-end="url(#arrowhead)" stroke="#555555" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+  <!-- nodes -->
+  <rect x="1576.6" y="40" width="200" height="75" rx="16.5" fill="#fff3cd" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1676.6" y="77.5" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#222222" font-family="Helvetica,Arial,sans-serif">Final</text>
+  <rect x="698.5" y="266.4" width="200" height="75" rx="16.5" fill="#cfe2ff" stroke="#6ea8fe" stroke-width="1.5"/>
+  <text x="798.5" y="303.9" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#222222" font-family="Helvetica,Arial,sans-serif">Formal</text>
+  <rect x="1137.6" y="266.4" width="200" height="75" rx="16.5" fill="#d1e7dd" stroke="#75b798" stroke-width="1.5"/>
+  <text x="1237.6" y="303.9" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#222222" font-family="Helvetica,Arial,sans-serif">Efficient</text>
+  <rect x="1576.6" y="266.4" width="200" height="75" rx="16.5" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.5"/>
+  <text x="1676.6" y="303.9" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#222222" font-family="Helvetica,Arial,sans-serif">Material</text>
+  <rect x="2015.6" y="266.4" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2115.6" y="303.9" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">health</text>
+  <rect x="2454.7" y="266.4" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2554.7" y="303.9" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">health equity</text>
+  <rect x="259.5" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="359.5" y="530.3" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Values</text>
+  <rect x="40" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="140" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Behavioural standards</text>
+  <rect x="698.5" y="945.5" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="798.5" y="983" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Positive Descriptors</text>
+  <rect x="1137.6" y="945.5" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1237.6" y="983" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Managerial Accountabilities</text>
+  <rect x="1576.6" y="945.5" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1676.6" y="983" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Counterproductive Behaviours to be Actively Challenged</text>
+  <rect x="479" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="579" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Recognition in Annual Assessment (PDR)</text>
+  <rect x="698.5" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="798.5" y="530.3" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Open Research Supporting </text>
+  <rect x="918.1" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1018.1" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">DORA signatory</text>
+  <rect x="1357.1" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1457.1" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">The Strategic Research Office</text>
+  <rect x="1796.1" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1896.1" y="741.8" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Resource provision : </text>
+  <text x="1896.1" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif"> </text>
+  <text x="1896.1" y="771.5" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Librarian's support, Open Research Services, Templates (eg., DMP), Data sharing repository</text>
+  <rect x="1137.6" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1237.6" y="522.8" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Portable skill development</text>
+  <text x="1237.6" y="537.7" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif"> (The Researcher Development Concordat)</text>
+  <rect x="1576.6" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="1676.6" y="530.3" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Researchers' agency</text>
+  <rect x="2235.2" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2335.2" y="749.2" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Operational character </text>
+  <text x="2335.2" y="764.1" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">(open and credible research)</text>
+  <rect x="2015.6" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2115.6" y="530.3" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Grant funding</text>
+  <rect x="2674.2" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2774.2" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Funder's Strategic Vision</text>
+  <rect x="2015.6" y="945.5" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2115.6" y="975.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">How to Build Trust </text>
+  <text x="2115.6" y="990.4" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">(aiming impact of research on the Society)</text>
+  <rect x="2454.7" y="945.5" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2554.7" y="975.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">How to Assess Trust Built </text>
+  <text x="2554.7" y="990.4" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">(aiming evaluate research based on the impact)</text>
+  <rect x="2454.7" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2554.7" y="530.3" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Regulations</text>
+  <rect x="3113.2" y="719.1" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="3213.2" y="756.6" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Regulator's Vision</text>
+  <rect x="2893.7" y="492.8" width="200" height="75" fill="white" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="2993.7" y="530.3" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="gray" font-family="Helvetica,Arial,sans-serif">Applicants for an academic position in the School</text>
+  <!-- centroid markers -->
+  <g class="centroid-marker" data-centroid-idx="0" style="cursor:pointer">
+    <circle cx="9719.2" cy="8100" r="12" fill="#e53e3e" fill-opacity="0.65" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="9703.2" y1="8100" x2="9735.2" y2="8100" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="9719.2" y1="8084" x2="9719.2" y2="8116" stroke="#e53e3e" stroke-width="2"/>
+    <text x="9732.2" y="8096" font-size="10" fill="#e53e3e" font-family="Helvetica,Arial,sans-serif">C1</text>
+  </g>
+  <g class="centroid-marker" data-centroid-idx="1" style="cursor:pointer">
+    <circle cx="4227.8" cy="920" r="12" fill="#e53e3e" fill-opacity="0.65" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="4211.8" y1="920" x2="4243.8" y2="920" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="4227.8" y1="904" x2="4227.8" y2="936" stroke="#e53e3e" stroke-width="2"/>
+    <text x="4240.8" y="916" font-size="10" fill="#e53e3e" font-family="Helvetica,Arial,sans-serif">C2</text>
+  </g>
+  <g class="centroid-marker" data-centroid-idx="2" style="cursor:pointer">
+    <circle cx="3854.9" cy="983.4" r="12" fill="#e53e3e" fill-opacity="0.65" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="3838.9" y1="983.4" x2="3870.9" y2="983.4" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="3854.9" y1="967.4" x2="3854.9" y2="999.4" stroke="#e53e3e" stroke-width="2"/>
+    <text x="3867.9" y="979.4" font-size="10" fill="#e53e3e" font-family="Helvetica,Arial,sans-serif">C3</text>
+  </g>
+  <g class="centroid-marker" data-centroid-idx="3" style="cursor:pointer">
+    <circle cx="3854.9" cy="983.4" r="12" fill="#e53e3e" fill-opacity="0.65" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="3838.9" y1="983.4" x2="3870.9" y2="983.4" stroke="#e53e3e" stroke-width="2"/>
+    <line x1="3854.9" y1="967.4" x2="3854.9" y2="999.4" stroke="#e53e3e" stroke-width="2"/>
+    <text x="3867.9" y="979.4" font-size="10" fill="#e53e3e" font-family="Helvetica,Arial,sans-serif">C4</text>
+  </g>
+  <!-- legend -->
+  <rect x="12" y="1071" width="230" height="202" fill="white" stroke="#cbd5e0" stroke-width="1" rx="4"/>
+  <text x="24" y="1088" font-size="11" font-weight="bold" fill="#2d3748" font-family="Helvetica,Arial,sans-serif">Four Causes — Strategic HRD</text>
+  <line x1="16" y1="1093" x2="238" y2="1093" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="24" y="1110" font-size="9" font-weight="bold" fill="#718096" font-family="Helvetica,Arial,sans-serif" text-transform="uppercase">SHAPES</text>
+  <rect x="30" y="1120" width="24" height="14" rx="4" fill="#e8f0fe" stroke="#4a5568" stroke-width="1"/>
+  <text x="64" y="1131" font-size="10" fill="#2d3748" font-family="Helvetica,Arial,sans-serif">Aristotelian cause</text>
+  <text x="24" y="1152" font-size="9" font-weight="bold" fill="#718096" font-family="Helvetica,Arial,sans-serif" text-transform="uppercase">NODE COLOURS</text>
+  <rect x="32" y="1162" width="20" height="14" fill="#fff3cd" stroke="#4a5568" stroke-width="1" rx="2"/>
+  <text x="64" y="1173" font-size="10" fill="#2d3748" font-family="Helvetica,Arial,sans-serif">Final cause (telos — mission &amp; health equity)</text>
+  <rect x="32" y="1186" width="20" height="14" fill="#cfe2ff" stroke="#4a5568" stroke-width="1" rx="2"/>
+  <text x="64" y="1197" font-size="10" fill="#2d3748" font-family="Helvetica,Arial,sans-serif">Formal cause (schema · structure)</text>
+  <rect x="32" y="1210" width="20" height="14" fill="#d1e7dd" stroke="#4a5568" stroke-width="1" rx="2"/>
+  <text x="64" y="1221" font-size="10" fill="#2d3748" font-family="Helvetica,Arial,sans-serif">Efficient cause (researcher-agent · inscriptions)</text>
+  <rect x="32" y="1234" width="20" height="14" fill="#e9ecef" stroke="#4a5568" stroke-width="1" rx="2"/>
+  <text x="64" y="1245" font-size="10" fill="#2d3748" font-family="Helvetica,Arial,sans-serif">Material cause (funders · regulators · applicants)</text>
+</svg>
