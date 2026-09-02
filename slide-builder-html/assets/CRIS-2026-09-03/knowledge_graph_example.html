@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interdisciplinary Knowledge Graph</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #111827;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #f9fafb;
+  padding: 24px 16px;
+}
+h1 { font-size: 20px; font-weight: 600; letter-spacing: 0.4px; margin-bottom: 4px; }
+.subtitle { color: #9ca3af; font-size: 12.5px; margin-bottom: 18px; }
+#graph-container {
+  width: 960px;
+  max-width: 100%;
+  height: 660px;
+  border-radius: 14px;
+  background: #1a2233;
+  border: 1px solid #2d3748;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+svg { width: 100%; height: 100%; }
+.link { fill: none; stroke-width: 1.4; opacity: 0.55; }
+.node-circle { cursor: pointer; stroke-width: 2; }
+.node-label { pointer-events: none; font-size: 10px; fill: #ffffff; font-weight: 500; }
+.legend { display: flex; gap: 22px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: #d1d5db; }
+.legend-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+#tooltip {
+  position: fixed;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f3f4f6;
+  padding: 9px 13px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 100;
+  transition: opacity 0.15s;
+  max-width: 240px;
+  line-height: 1.55;
+}
+</style>
+</head>
+<body>
+
+<h1>Interdisciplinary Knowledge Graph</h1>
+<p class="subtitle">Biological · Medical · Pharmaceutical · Political · Sociological — hover nodes to explore connections, drag to rearrange</p>
+
+<div id="graph-container"><svg id="graph"></svg></div>
+<div class="legend" id="legend"></div>
+<div id="tooltip"></div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const domains = {
+  bio:    { color: '#10b981', label: 'Biological' },
+  med:    { color: '#f87171', label: 'Medical' },
+  pharma: { color: '#60a5fa', label: 'Pharmaceutical' },
+  pol:    { color: '#c084fc', label: 'Political' },
+  soc:    { color: '#fb923c', label: 'Sociological' },
+};
+
+const nodes = [
+  // Biological
+  { id: 'microbiome',    label: 'Microbiome',           domain: 'bio' },
+  { id: 'inflammation',  label: 'Inflammation',          domain: 'bio' },
+  { id: 'cytokines',     label: 'Cytokines',             domain: 'bio' },
+  { id: 'tcells',        label: 'T-cells',               domain: 'bio' },
+  // Medical
+  { id: 'autoimmune',    label: 'Autoimmune Disease',    domain: 'med' },
+  { id: 'ra',            label: 'Rheumatoid Arthritis',  domain: 'med' },
+  { id: 'comorbidities', label: 'Comorbidities',         domain: 'med' },
+  { id: 'guidelines',    label: 'Treatment Guidelines',  domain: 'med' },
+  // Pharmaceutical
+  { id: 'biologics',     label: 'Biologics',             domain: 'pharma' },
+  { id: 'immunosup',     label: 'Immunosuppressants',    domain: 'pharma' },
+  { id: 'metabolism',    label: 'Drug Metabolism',       domain: 'pharma' },
+  { id: 'trials',        label: 'Clinical Trials',       domain: 'pharma' },
+  // Political
+  { id: 'fda',           label: 'FDA Approval',          domain: 'pol' },
+  { id: 'insurance',     label: 'Insurance Coverage',    domain: 'pol' },
+  { id: 'regulation',    label: 'Drug Regulation',       domain: 'pol' },
+  { id: 'policy',        label: 'Healthcare Policy',     domain: 'pol' },
+  // Sociological
+  { id: 'disparities',   label: 'Health Disparities',   domain: 'soc' },
+  { id: 'determinants',  label: 'Social Determinants',  domain: 'soc' },
+  { id: 'literacy',      label: 'Health Literacy',       domain: 'soc' },
+  { id: 'compliance',    label: 'Patient Compliance',    domain: 'soc' },
+];
+
+const edges = [
+  // Biological
+  { source: 'microbiome',   target: 'inflammation',  rel: 'modulates' },
+  { source: 'inflammation', target: 'cytokines',      rel: 'triggers' },
+  { source: 'inflammation', target: 'tcells',         rel: 'activates' },
+  // Bio → Med
+  { source: 'cytokines',    target: 'autoimmune',     rel: 'drives' },
+  { source: 'tcells',       target: 'autoimmune',     rel: 'mediates' },
+  // Bio → Pharma
+  { source: 'tcells',       target: 'immunosup',      rel: 'targeted by' },
+  // Medical internal
+  { source: 'autoimmune',   target: 'ra',             rel: 'manifests as' },
+  { source: 'autoimmune',   target: 'comorbidities',  rel: 'causes' },
+  { source: 'ra',           target: 'guidelines',     rel: 'informs' },
+  { source: 'guidelines',   target: 'comorbidities',  rel: 'addresses' },
+  // Med → Pharma
+  { source: 'autoimmune',   target: 'biologics',      rel: 'treated by' },
+  // Pharma internal
+  { source: 'biologics',    target: 'trials',         rel: 'evaluated in' },
+  { source: 'immunosup',    target: 'metabolism',     rel: 'processed via' },
+  // Pharma → Political
+  { source: 'trials',       target: 'fda',            rel: 'submitted to' },
+  { source: 'metabolism',   target: 'fda',            rel: 'assessed by' },
+  // Political internal
+  { source: 'fda',          target: 'regulation',     rel: 'enforces' },
+  { source: 'fda',          target: 'insurance',      rel: 'enables' },
+  { source: 'regulation',   target: 'policy',         rel: 'shapes' },
+  // Pol → Soc
+  { source: 'insurance',    target: 'disparities',    rel: 'creates' },
+  { source: 'policy',       target: 'disparities',    rel: 'impacts' },
+  // Sociological internal
+  { source: 'disparities',  target: 'determinants',   rel: 'reflects' },
+  { source: 'determinants', target: 'literacy',       rel: 'affects' },
+  { source: 'literacy',     target: 'compliance',     rel: 'enables' },
+  // Soc → Med (closing loops)
+  { source: 'guidelines',   target: 'compliance',     rel: 'requires' },
+  { source: 'compliance',   target: 'comorbidities',  rel: 'reduces' },
+];
+
+// Legend
+const legendEl = document.getElementById('legend');
+Object.entries(domains).forEach(([, d]) => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.innerHTML = `<div class="legend-dot" style="background:${d.color}"></div><span>${d.label}</span>`;
+  legendEl.appendChild(item);
+});
+
+// SVG
+const container = document.getElementById('graph-container');
+const W = container.clientWidth || 960;
+const H = container.clientHeight || 660;
+const svg = d3.select('#graph').attr('viewBox', `0 0 ${W} ${H}`);
+
+const defs = svg.append('defs');
+
+// Arrow markers per domain
+Object.entries(domains).forEach(([key, d]) => {
+  defs.append('marker')
+    .attr('id', `arrow-${key}`)
+    .attr('markerWidth', 7).attr('markerHeight', 5)
+    .attr('refX', 7).attr('refY', 2.5)
+    .attr('orient', 'auto')
+    .append('polygon')
+    .attr('points', '0 0, 7 2.5, 0 5')
+    .attr('fill', d.color).attr('opacity', 0.75);
+});
+
+// Background gradient
+const bg = defs.append('radialGradient').attr('id', 'bg').attr('cx','50%').attr('cy','50%').attr('r','70%');
+bg.append('stop').attr('offset','0%').attr('stop-color','#1e2d45');
+bg.append('stop').attr('offset','100%').attr('stop-color','#0d1520');
+svg.insert('rect',':first-child').attr('width',W).attr('height',H).attr('fill','url(#bg)');
+
+// Domain cluster centers
+const domainCenters = {
+  bio:    { x: W*0.18, y: H*0.28 },
+  med:    { x: W*0.44, y: H*0.36 },
+  pharma: { x: W*0.74, y: H*0.27 },
+  pol:    { x: W*0.79, y: H*0.70 },
+  soc:    { x: W*0.28, y: H*0.73 },
+};
+
+// Force simulation
+const simulation = d3.forceSimulation(nodes)
+  .force('link',      d3.forceLink(edges).id(d => d.id).distance(115).strength(0.45))
+  .force('charge',    d3.forceManyBody().strength(-370))
+  .force('collision', d3.forceCollide(52))
+  .force('cluster',   alpha => {
+    nodes.forEach(n => {
+      const c = domainCenters[n.domain];
+      n.vx += (c.x - n.x) * 0.06 * alpha;
+      n.vy += (c.y - n.y) * 0.06 * alpha;
+    });
+  });
+
+// Links
+const linkSel = svg.append('g').selectAll('line').data(edges).join('line')
+  .attr('class', 'link')
+  .attr('stroke', d => {
+    const src = nodes.find(n => n.id === (d.source.id || d.source));
+    return src ? domains[src.domain].color : '#6b7280';
+  })
+  .attr('marker-end', d => {
+    const src = nodes.find(n => n.id === (d.source.id || d.source));
+    return src ? `url(#arrow-${src.domain})` : 'url(#arrow-bio)';
+  });
+
+// Nodes
+const NODE_R = 30;
+const nodeSel = svg.append('g').selectAll('g').data(nodes).join('g')
+  .call(d3.drag()
+    .on('start', (ev) => { if (!ev.active) simulation.alphaTarget(0.3).restart(); ev.subject.fx=ev.subject.x; ev.subject.fy=ev.subject.y; })
+    .on('drag',  (ev) => { ev.subject.fx=ev.x; ev.subject.fy=ev.y; })
+    .on('end',   (ev) => { if (!ev.active) simulation.alphaTarget(0); ev.subject.fx=null; ev.subject.fy=null; }));
+
+// Glow halo
+nodeSel.append('circle').attr('r', NODE_R+9)
+  .attr('fill', d => domains[d.domain].color).attr('opacity', 0.13)
+  .attr('filter', 'blur(7px)');
+
+// Main circle
+nodeSel.append('circle').attr('class','node-circle').attr('r', NODE_R)
+  .attr('fill', d => domains[d.domain].color).attr('fill-opacity', 0.83)
+  .attr('stroke','#1a2233').attr('stroke-width', 2);
+
+// Text
+nodeSel.each(function(d) {
+  const g = d3.select(this);
+  const words = d.label.split(' ');
+  const fs = words.length >= 3 ? '9px' : '10px';
+  if (words.length === 1) {
+    g.append('text').attr('class','node-label').attr('text-anchor','middle').attr('dy','0.35em').attr('font-size',fs).text(d.label);
+  } else {
+    const mid = Math.ceil(words.length / 2);
+    g.append('text').attr('class','node-label').attr('text-anchor','middle').attr('dy','-0.4em').attr('font-size',fs).text(words.slice(0,mid).join(' '));
+    g.append('text').attr('class','node-label').attr('text-anchor','middle').attr('dy','0.85em').attr('font-size',fs).text(words.slice(mid).join(' '));
+  }
+});
+
+// Tooltip
+const tooltip = document.getElementById('tooltip');
+nodeSel
+  .on('mouseover', (event, d) => {
+    const inE  = edges.filter(e => (e.target.id||e.target) === d.id);
+    const outE = edges.filter(e => (e.source.id||e.source) === d.id);
+    const fmt = (e, dir) => {
+      const peer = dir === 'in'
+        ? nodes.find(n => n.id === (e.source.id||e.source))
+        : nodes.find(n => n.id === (e.target.id||e.target));
+      const arrow = dir === 'in' ? '←' : '→';
+      return `<span style="color:${domains[peer?.domain]?.color||'#9ca3af'}">${arrow} ${peer?.label||'?'}</span> <span style="color:#6b7280;font-size:10px">${e.rel}</span>`;
+    };
+    tooltip.innerHTML = `
+      <div style="font-weight:600;color:${domains[d.domain].color};margin-bottom:5px">${d.label}</div>
+      <div style="color:#9ca3af;font-size:11px;margin-bottom:6px">${domains[d.domain].label}</div>
+      ${inE.concat(outE).map((e,i) => `<div style="margin-top:2px">${fmt(e, i < inE.length ? 'in' : 'out')}</div>`).join('')}
+    `;
+    tooltip.style.opacity = 1;
+    tooltip.style.left = (event.clientX + 14) + 'px';
+    tooltip.style.top  = (event.clientY - 14) + 'px';
+  })
+  .on('mousemove', ev => { tooltip.style.left=(ev.clientX+14)+'px'; tooltip.style.top=(ev.clientY-14)+'px'; })
+  .on('mouseout',  () => { tooltip.style.opacity = 0; });
+
+// Tick
+const PAD = NODE_R + 5;
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+simulation.on('tick', () => {
+  linkSel
+    .attr('x1', d => clamp(d.source.x, PAD, W-PAD))
+    .attr('y1', d => clamp(d.source.y, PAD, H-PAD))
+    .attr('x2', d => {
+      const sx = clamp(d.source.x,PAD,W-PAD), tx = clamp(d.target.x,PAD,W-PAD);
+      const sy = clamp(d.source.y,PAD,H-PAD), ty = clamp(d.target.y,PAD,H-PAD);
+      const dx=tx-sx, dy=ty-sy, len=Math.sqrt(dx*dx+dy*dy)||1;
+      return tx - (dx/len)*(NODE_R+7);
+    })
+    .attr('y2', d => {
+      const sx = clamp(d.source.x,PAD,W-PAD), tx = clamp(d.target.x,PAD,W-PAD);
+      const sy = clamp(d.source.y,PAD,H-PAD), ty = clamp(d.target.y,PAD,H-PAD);
+      const dx=tx-sx, dy=ty-sy, len=Math.sqrt(dx*dx+dy*dy)||1;
+      return ty - (dy/len)*(NODE_R+7);
+    });
+
+  nodeSel.attr('transform', d =>
+    `translate(${clamp(d.x,PAD,W-PAD)},${clamp(d.y,PAD,H-PAD)})`);
+});
+</script>
+</body>
+</html>
