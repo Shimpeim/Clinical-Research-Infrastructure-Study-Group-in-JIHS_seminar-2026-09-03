@@ -1,1 +1,374 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Citation Knowledge Graph</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0d1117;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #e6edf3;
+  padding: 22px 16px 32px;
+}
+h1 { font-size: 19px; font-weight: 600; margin-bottom: 4px; letter-spacing: 0.3px; }
+.subtitle { color: #8b949e; font-size: 12px; margin-bottom: 16px; text-align: center; max-width: 760px; }
+#gc {
+  width: 980px; max-width: 100%; height: 670px;
+  border-radius: 12px; background: #161b22;
+  border: 1px solid #30363d; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+svg { width: 100%; height: 100%; }
+.node-lbl { pointer-events: none; fill: #fff; font-weight: 500; }
+.edge-lbl { font-size: 7.5px; fill: #6b7280; pointer-events: none; }
+.legend-wrap { display: flex; gap: 36px; margin-top: 14px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+.legend-sec h3 { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 6px; }
+.legend-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.litem { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #c9d1d9; }
+.ldot { width: 11px; height: 11px; border-radius: 50%; }
+.ldot-paper { width: 14px; height: 14px; border-radius: 50%; border: 2px dashed #aaa; background: transparent; }
+#tt {
+  position: fixed; background: #21262d; border: 1px solid #30363d;
+  color: #e6edf3; padding: 10px 13px; border-radius: 8px; font-size: 11.5px;
+  pointer-events: none; opacity: 0; z-index: 100; transition: opacity 0.12s;
+  max-width: 300px; line-height: 1.65; box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+</style>
+</head>
+<body>
+
+<h1>Cross-Disciplinary Citation Knowledge Graph</h1>
+<p class="subtitle">8 landmark papers · 17 shared concepts · links via intellectual territory across Biology, Medicine, Pharmacology, Policy, and Sociology — hover to explore, drag to rearrange</p>
+
+<div id="gc"><svg id="graph"></svg></div>
+
+<div class="legend-wrap">
+  <div class="legend-sec">
+    <h3>Domain</h3>
+    <div class="legend-row" id="leg-domain"></div>
+  </div>
+  <div class="legend-sec">
+    <h3>Node type</h3>
+    <div class="legend-row">
+      <div class="litem"><div class="ldot-paper"></div><span>Paper</span></div>
+      <div class="litem"><div class="ldot" style="background:#9ca3af"></div><span>Concept</span></div>
+    </div>
+  </div>
+</div>
+<div id="tt"></div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const DOM = {
+  bio:    { color: '#10b981', label: 'Biological' },
+  med:    { color: '#f87171', label: 'Medical' },
+  pharma: { color: '#60a5fa', label: 'Pharmaceutical' },
+  pol:    { color: '#c084fc', label: 'Political / Policy' },
+  soc:    { color: '#fb923c', label: 'Sociological' },
+};
+
+document.getElementById('leg-domain').innerHTML =
+  Object.entries(DOM).map(([,d]) =>
+    `<div class="litem"><div class="ldot" style="background:${d.color}"></div><span>${d.label}</span></div>`
+  ).join('');
+
+// ── Data ─────────────────────────────────────────────────────────────────────
+
+const papers = [
+  { id:'p1', type:'paper', label:'Mazmanian\n2005', domain:'bio',
+    title:'An immunomodulatory molecule of symbiotic bacteria directs maturation of the host immune system',
+    ref:'Mazmanian et al. (2005). Cell 122:107–118.' },
+  { id:'p2', type:'paper', label:'Bluestone\n2010', domain:'bio',
+    title:'Genetics, pathogenesis and clinical interventions in type 1 diabetes',
+    ref:'Bluestone et al. (2010). Nature 464:1293–1300.' },
+  { id:'p3', type:'paper', label:'Smolen\n2016', domain:'med',
+    title:'Rheumatoid arthritis',
+    ref:'Smolen et al. (2016). Nat Rev Dis Primers 2:16001.' },
+  { id:'p4', type:'paper', label:'Zimmermann\n2019', domain:'pharma',
+    title:'Separating host and microbiome contributions to drug pharmacokinetics and toxicity',
+    ref:'Zimmermann et al. (2019). Science 363:eaat9931.' },
+  { id:'p5', type:'paper', label:'Hamburg\n2010', domain:'pharma',
+    title:'The path to personalized medicine',
+    ref:'Hamburg & Collins (2010). NEJM 363:301–304.' },
+  { id:'p6', type:'paper', label:'Berkman\n2011', domain:'soc',
+    title:'Low health literacy and health outcomes: an updated systematic review',
+    ref:'Berkman et al. (2011). Ann Intern Med 155:97–107.' },
+  { id:'p7', type:'paper', label:'Sommers\n2017', domain:'pol',
+    title:'Health insurance coverage and health — what the recent evidence tells us',
+    ref:'Sommers et al. (2017). NEJM 377:586–593.' },
+  { id:'p8', type:'paper', label:'Galobardes\n2006', domain:'soc',
+    title:'Indicators of socioeconomic position (part 1)',
+    ref:'Galobardes et al. (2006). J Epidemiol Community Health 60:7–12.' },
+];
+
+const concepts = [
+  { id:'c_micro',  type:'concept', label:'Gut\nMicrobiome',      domain:'bio'    },
+  { id:'c_imm',    type:'concept', label:'Immune\nRegulation',   domain:'bio'    },
+  { id:'c_tcell',  type:'concept', label:'T-cell\nSignaling',    domain:'bio'    },
+  { id:'c_cyto',   type:'concept', label:'Cytokines',            domain:'bio'    },
+  { id:'c_auto',   type:'concept', label:'Autoimmunity',         domain:'med'    },
+  { id:'c_trial',  type:'concept', label:'Clinical\nTrials',     domain:'pharma' },
+  { id:'c_biol',   type:'concept', label:'Biologic\nTherapy',    domain:'pharma' },
+  { id:'c_met',    type:'concept', label:'Drug\nMetabolism',     domain:'pharma' },
+  { id:'c_prec',   type:'concept', label:'Precision\nMedicine',  domain:'pharma' },
+  { id:'c_fda',    type:'concept', label:'FDA\nRegulation',      domain:'pol'    },
+  { id:'c_ins',    type:'concept', label:'Insurance\nAccess',    domain:'pol'    },
+  { id:'c_hpol',   type:'concept', label:'Health\nPolicy',       domain:'pol'    },
+  { id:'c_disp',   type:'concept', label:'Health\nDisparities',  domain:'soc'    },
+  { id:'c_adh',    type:'concept', label:'Patient\nAdherence',   domain:'soc'    },
+  { id:'c_lit',    type:'concept', label:'Health\nLiteracy',     domain:'soc'    },
+  { id:'c_ses',    type:'concept', label:'Socioeconomic\nStatus',domain:'soc'    },
+  { id:'c_sd',     type:'concept', label:'Social\nDeterminants', domain:'soc'    },
+];
+
+const nodes = [...papers, ...concepts];
+
+// paper → concept edges
+const pe = [
+  {source:'p1',target:'c_micro',etype:'pc'},{source:'p1',target:'c_imm',  etype:'pc'},{source:'p1',target:'c_tcell',etype:'pc'},
+  {source:'p2',target:'c_imm',  etype:'pc'},{source:'p2',target:'c_tcell',etype:'pc'},{source:'p2',target:'c_cyto', etype:'pc'},
+  {source:'p2',target:'c_auto', etype:'pc'},{source:'p2',target:'c_prec', etype:'pc'},{source:'p2',target:'c_trial',etype:'pc'},
+  {source:'p3',target:'c_auto', etype:'pc'},{source:'p3',target:'c_cyto', etype:'pc'},{source:'p3',target:'c_biol', etype:'pc'},
+  {source:'p3',target:'c_trial',etype:'pc'},{source:'p3',target:'c_adh',  etype:'pc'},{source:'p3',target:'c_fda',  etype:'pc'},
+  {source:'p4',target:'c_micro',etype:'pc'},{source:'p4',target:'c_met',  etype:'pc'},{source:'p4',target:'c_prec', etype:'pc'},
+  {source:'p5',target:'c_prec', etype:'pc'},{source:'p5',target:'c_met',  etype:'pc'},{source:'p5',target:'c_biol', etype:'pc'},
+  {source:'p5',target:'c_fda',  etype:'pc'},{source:'p5',target:'c_trial',etype:'pc'},{source:'p5',target:'c_hpol', etype:'pc'},
+  {source:'p6',target:'c_disp', etype:'pc'},{source:'p6',target:'c_adh',  etype:'pc'},{source:'p6',target:'c_lit',  etype:'pc'},
+  {source:'p6',target:'c_ses',  etype:'pc'},
+  {source:'p7',target:'c_ins',  etype:'pc'},{source:'p7',target:'c_disp', etype:'pc'},{source:'p7',target:'c_hpol', etype:'pc'},
+  {source:'p7',target:'c_sd',   etype:'pc'},
+  {source:'p8',target:'c_ses',  etype:'pc'},{source:'p8',target:'c_sd',   etype:'pc'},{source:'p8',target:'c_disp', etype:'pc'},
+];
+
+// concept → concept bridges
+const ce = [
+  {source:'c_micro',target:'c_met',  etype:'cc', rel:'shapes'},
+  {source:'c_auto', target:'c_cyto', etype:'cc', rel:'mediated by'},
+  {source:'c_ses',  target:'c_disp', etype:'cc', rel:'produces'},
+  {source:'c_sd',   target:'c_disp', etype:'cc', rel:'generates'},
+  {source:'c_lit',  target:'c_adh',  etype:'cc', rel:'enables'},
+  {source:'c_prec', target:'c_met',  etype:'cc', rel:'refines'},
+];
+
+const edges = [...pe, ...ce];
+
+// ── SVG setup ─────────────────────────────────────────────────────────────────
+
+const gcEl = document.getElementById('gc');
+const W = gcEl.clientWidth || 980;
+const H = gcEl.clientHeight || 670;
+const svg = d3.select('#graph').attr('viewBox', `0 0 ${W} ${H}`);
+
+const defs = svg.append('defs');
+const bgG = defs.append('radialGradient').attr('id','bg').attr('cx','50%').attr('cy','50%').attr('r','75%');
+bgG.append('stop').attr('offset','0%').attr('stop-color','#1b2436');
+bgG.append('stop').attr('offset','100%').attr('stop-color','#0d1117');
+svg.append('rect').attr('width',W).attr('height',H).attr('fill','url(#bg)');
+
+const PR = 38, CR = 26; // paper radius, concept radius
+
+// ── Cluster centers ───────────────────────────────────────────────────────────
+
+const pC = {  // paper domain centers (peripheral)
+  bio:    {x:W*0.12, y:H*0.17},
+  med:    {x:W*0.38, y:H*0.14},
+  pharma: {x:W*0.83, y:H*0.17},
+  pol:    {x:W*0.88, y:H*0.77},
+  soc:    {x:W*0.14, y:H*0.82},
+};
+const cC = {  // concept domain centers (interior)
+  bio:    {x:W*0.25, y:H*0.32},
+  med:    {x:W*0.46, y:H*0.38},
+  pharma: {x:W*0.68, y:H*0.33},
+  pol:    {x:W*0.72, y:H*0.65},
+  soc:    {x:W*0.32, y:H*0.68},
+};
+
+// ── Force simulation ──────────────────────────────────────────────────────────
+
+const sim = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(edges).id(d=>d.id)
+    .distance(d => d.etype==='cc' ? 72 : 118)
+    .strength(d => d.etype==='cc' ? 0.28 : 0.32))
+  .force('charge', d3.forceManyBody().strength(d => d.type==='paper' ? -430 : -190))
+  .force('collision', d3.forceCollide(d => d.type==='paper' ? PR+10 : CR+6))
+  .force('cluster', alpha => {
+    nodes.forEach(n => {
+      const c = n.type==='paper' ? pC[n.domain] : cC[n.domain];
+      const s = n.type==='paper' ? 0.12 : 0.05;
+      n.vx += (c.x - n.x) * s * alpha;
+      n.vy += (c.y - n.y) * s * alpha;
+    });
+  });
+
+// ── Draw edges ────────────────────────────────────────────────────────────────
+
+const eG = svg.append('g');
+
+const edgeSel = eG.selectAll('line').data(edges).join('line')
+  .attr('fill', 'none')
+  .attr('stroke-width', d => d.etype==='cc' ? 1.6 : 1.2)
+  .attr('stroke-dasharray', d => d.etype==='cc' ? '5,3' : 'none')
+  .attr('stroke', d => {
+    if (d.etype==='cc') return '#6b7280';
+    const sid = d.source.id || d.source;
+    const s = nodes.find(n=>n.id===sid);
+    return s ? DOM[s.domain].color : '#9ca3af';
+  })
+  .attr('opacity', d => d.etype==='cc' ? 0.28 : 0.40);
+
+// Labels only on concept-concept edges
+const lblSel = eG.selectAll('text').data(ce).join('text')
+  .attr('class','edge-lbl').attr('text-anchor','middle')
+  .attr('opacity', 0.60)
+  .text(d=>d.rel);
+
+// ── Draw nodes ────────────────────────────────────────────────────────────────
+
+const nG = svg.append('g');
+const nodeSel = nG.selectAll('g').data(nodes).join('g')
+  .style('cursor','pointer')
+  .call(d3.drag()
+    .on('start', ev => { if(!ev.active) sim.alphaTarget(0.3).restart(); ev.subject.fx=ev.subject.x; ev.subject.fy=ev.subject.y; })
+    .on('drag',  ev => { ev.subject.fx=ev.x; ev.subject.fy=ev.y; })
+    .on('end',   ev => { if(!ev.active) sim.alphaTarget(0); ev.subject.fx=null; ev.subject.fy=null; }));
+
+// Glow
+nodeSel.append('circle')
+  .attr('r', d => d.type==='paper' ? PR+11 : CR+8)
+  .attr('fill', d => DOM[d.domain].color)
+  .attr('opacity', 0.10)
+  .attr('filter','blur(8px)');
+
+// Body
+nodeSel.append('circle')
+  .attr('r', d => d.type==='paper' ? PR : CR)
+  .attr('fill', d => DOM[d.domain].color)
+  .attr('fill-opacity', d => d.type==='paper' ? 0.76 : 0.82)
+  .attr('stroke', d => d.type==='paper' ? '#dde5f0' : DOM[d.domain].color)
+  .attr('stroke-width', d => d.type==='paper' ? 2.2 : 1.4)
+  .attr('stroke-opacity', d => d.type==='paper' ? 0.70 : 0.40)
+  .attr('stroke-dasharray', d => d.type==='paper' ? '5,3.5' : 'none');
+
+// Text labels
+nodeSel.each(function(d) {
+  const g = d3.select(this);
+  const lines = d.label.split('\n');
+  const isPaper = d.type === 'paper';
+  const fs = isPaper
+    ? (lines[0].length > 8 ? '9px' : '10.5px')
+    : (lines[0].length > 9 ? '7.5px' : '8.5px');
+  const lh = isPaper ? 13 : 11;
+
+  if (lines.length === 1) {
+    g.append('text').attr('class','node-lbl')
+      .attr('text-anchor','middle').attr('dy','0.35em')
+      .attr('font-size', fs).attr('font-weight', isPaper ? '600' : '500')
+      .text(lines[0]);
+  } else {
+    const topY = -(lh * (lines.length - 1)) / 2;
+    lines.forEach((ln, i) => {
+      const isYear = isPaper && i === 1;
+      g.append('text').attr('class','node-lbl')
+        .attr('text-anchor','middle')
+        .attr('y', topY + i * lh).attr('dy','0.35em')
+        .attr('font-size', isYear ? (parseFloat(fs) - 1) + 'px' : fs)
+        .attr('font-weight', isYear ? '400' : (isPaper ? '600' : '500'))
+        .attr('fill-opacity', isYear ? 0.70 : 1)
+        .text(ln);
+    });
+  }
+});
+
+// ── Tooltip ───────────────────────────────────────────────────────────────────
+
+const tt = document.getElementById('tt');
+
+function ttShow(ev, d) {
+  let html = '';
+  const color = DOM[d.domain].color;
+
+  if (d.type === 'paper') {
+    const conCpts = edges
+      .filter(e => e.etype==='pc' && ((e.source.id||e.source)===d.id))
+      .map(e => { const t = nodes.find(n=>n.id===(e.target.id||e.target)); return t ? t.label.replace('\n',' ') : null; })
+      .filter(Boolean);
+    html = `
+      <div style="font-weight:700;color:${color};margin-bottom:3px">${d.label.replace('\n',' ')}</div>
+      <div style="font-size:10.5px;color:#9ca3af;margin-bottom:5px">${d.ref}</div>
+      <div style="font-style:italic;color:#d1d5db;font-size:10.5px;margin-bottom:7px">"${d.title}"</div>
+      <div style="font-size:10px;color:#6b7280">Key concepts: <span style="color:#c9d1d9">${conCpts.join(' · ')}</span></div>
+    `;
+  } else {
+    const refPapers = edges
+      .filter(e => e.etype==='pc' && ((e.target.id||e.target)===d.id))
+      .map(e => {
+        const p = nodes.find(n=>n.id===(e.source.id||e.source));
+        return p ? `<span style="color:${DOM[p.domain].color}">${p.label.replace('\n',' ')}</span>` : null;
+      }).filter(Boolean);
+    html = `
+      <div style="font-weight:700;color:${color};margin-bottom:3px">${d.label.replace('\n',' ')}</div>
+      <div style="font-size:10.5px;color:#9ca3af;margin-bottom:6px">${DOM[d.domain].label} concept</div>
+      ${refPapers.length ? `<div style="font-size:10px;color:#6b7280">Referenced in: ${refPapers.join(', ')}</div>` : ''}
+    `;
+  }
+
+  tt.innerHTML = html;
+  tt.style.opacity = 1;
+  tt.style.left = (ev.clientX + 14) + 'px';
+  tt.style.top  = (ev.clientY - 14) + 'px';
+}
+
+nodeSel
+  .on('mouseover', (ev, d) => { highlight(d.id); ttShow(ev, d); })
+  .on('mousemove', ev => { tt.style.left=(ev.clientX+14)+'px'; tt.style.top=(ev.clientY-14)+'px'; })
+  .on('mouseout',  () => { clearHL(); tt.style.opacity=0; });
+
+// ── Highlighting ──────────────────────────────────────────────────────────────
+
+function highlight(id) {
+  const conn = new Set([id]);
+  const connIdx = new Set();
+  edges.forEach((e,i) => {
+    const s=e.source.id||e.source, t=e.target.id||e.target;
+    if(s===id||t===id){ conn.add(s); conn.add(t); connIdx.add(i); }
+  });
+  nodeSel.style('opacity', d => conn.has(d.id) ? 1 : 0.09);
+  edgeSel.style('opacity', (_,i) => connIdx.has(i) ? 0.82 : 0.04);
+  lblSel.style('opacity', 0.04);
+}
+function clearHL() {
+  nodeSel.style('opacity', 1);
+  edgeSel.style('opacity', d => d.etype==='cc' ? 0.28 : 0.40);
+  lblSel.style('opacity', 0.60);
+}
+
+// ── Tick ──────────────────────────────────────────────────────────────────────
+
+function cl(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
+const PAD = PR + 6;
+
+sim.on('tick', () => {
+  edgeSel
+    .attr('x1', d => cl(d.source.x,PAD,W-PAD))
+    .attr('y1', d => cl(d.source.y,PAD,H-PAD))
+    .attr('x2', d => cl(d.target.x,PAD,W-PAD))
+    .attr('y2', d => cl(d.target.y,PAD,H-PAD));
+
+  lblSel
+    .attr('x', d => (cl(d.source.x,PAD,W-PAD)+cl(d.target.x,PAD,W-PAD))/2)
+    .attr('y', d => (cl(d.source.y,PAD,H-PAD)+cl(d.target.y,PAD,H-PAD))/2 - 5);
+
+  nodeSel.attr('transform', d =>
+    `translate(${cl(d.x,PAD,W-PAD)},${cl(d.y,PAD,H-PAD)})`);
+});
+</script>
+</body>
+</html>
+
